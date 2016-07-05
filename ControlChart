@@ -1,0 +1,27 @@
+xrchart <- function(q,w){
+for(ii in 1:10000){
+#生成IC DATA
+sample <- matrix(1:1000,nrow=200)
+for(i in 1:200){
+  sample[i,] <- rnorm(5,mean=0,sd=1)
+}
+R <- matrix(1:200,nrow=200)
+for(i in 1:200){
+  R[i] <- max(sample[i,])-min(sample[i,])
+}
+cx <- mean(sample)
+cr <- mean(R)
+#求X chart的U，用到z=3,m=5,d1(5)=2.326
+ux <- cx+3*cr/(2.326*sqrt(5))
+lx <- cx-3*cr/(2.326*sqrt(5))
+#第二步
+length <- rep(0,10000)
+  a <- rnorm(5,mean=q,sd=w)
+  #while循环内计算每个length的长度
+  while((mean(a)<ux)&&(mean(a)>lx)){
+    length[ii]=length[ii]+1
+    a <- rnorm(5,mean=q,sd=w)####这里要和a的初始设定一致！
+  }
+}
+list(mean(length),sd(length))
+}
